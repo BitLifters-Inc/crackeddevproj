@@ -27,20 +27,20 @@ export const appRouter = createTRPCRouter({
         const jobRes = await fetch ("https://api.crackeddevs.com/v1/get-jobs?limit=10",
           {
             headers: {
-              'api-key': "b88335d0-6ee7-444d-9436-975a9ef6919b"
+              'api-key': 'b88335d0-6ee7-444d-9436-975a9ef6919b'
             }
           }
         )
-
-        if(!jobRes.ok) {
+        
+        if(jobRes.ok) {
+          const validated = responseValidator.parse(jobRes.json())
+          return validated
+        } else {
           throw new TRPCError({code: 'NOT_FOUND'})
         }
-
-        const validated = responseValidator.parse(jobRes.json())
-        console.log(validated)
-        return validated
+        
       } catch (error) {
-        throw new TRPCError({code: "INTERNAL_SERVER_ERROR"})
+        throw new TRPCError({code: "NOT_FOUND"})
       }
     })
 });

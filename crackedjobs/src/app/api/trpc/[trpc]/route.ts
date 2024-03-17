@@ -3,6 +3,7 @@ import { type NextRequest } from "next/server";
 
 import { env } from "~/env";
 import { appRouter } from "~/server/api/root";
+import { jobsRouter } from "~/server/api/routers/jobs";
 import { createTRPCContext } from "~/server/api/trpc";
 
 /**
@@ -19,7 +20,7 @@ const handler = (req: NextRequest) =>
   fetchRequestHandler({
     endpoint: "/api/trpc",
     req,
-    router: appRouter,
+    router: jobsRouter,
     createContext: () => createContext(req),
     onError:
       env.NODE_ENV === "development"

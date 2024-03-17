@@ -1,12 +1,13 @@
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
+import { env } from "~/env";
 
 import {
   createTRPCRouter,
   // protectedProcedure,
   publicProcedure,
 } from "~/server/api/trpc";
-import { responseValidator } from "~/utils/validators/job-validator";
+// import { responseValidator } from "~/utils/validators/job-validator";
 
 export const jobsRouter = createTRPCRouter({
   getHello: publicProcedure
@@ -14,26 +15,22 @@ export const jobsRouter = createTRPCRouter({
     
   getJobs: publicProcedure
     .query(async () => {
-      try{
-        const jobRes = await fetch ("https://api.crackeddevs.com/v1/get-jobs",
+        const jobRes = await fetch("https://api.crackeddevs.com/v1/get-jobs",
           {
             headers: {
-              'api-key': "b88335d0-6ee7-444d-9436-975a9ef6919b"
+              'api-key': env.CRACKED_DEVS_API_KEY
             }
           }
         )
       
 
-      if(!jobRes.ok) {
-        throw new TRPCError({code: 'NOT_FOUND'})
-      }
-
-      const validated = responseValidator.parse(jobRes.json())
-      console.log(validated)
-      return validated
-      } catch (error) {
-        throw new TRPCError({code: "INTERNAL_SERVER_ERROR"})
-      }
+        if(!jobRes.ok) {
+          throw new TRPCError({code: 'NOT_FOUND'})
+        }
+        
+        // // const validated = responseValidator.parse(jobRes.json())
+        // console.log(validated)
+        return jobRes.json();
     })
 })
 
