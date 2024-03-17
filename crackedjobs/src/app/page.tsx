@@ -1,5 +1,5 @@
 import React from "react";
-import ForecastCard from "../components/ui/mainCard";
+import ForecastCard from "../components/mainCard";
 
 export default function Home() {
   return (

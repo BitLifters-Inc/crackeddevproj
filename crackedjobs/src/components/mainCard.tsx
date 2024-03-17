@@ -5,7 +5,7 @@ import {
   CardTitle,
   CardDescription,
   CardContent,
-} from "./card";
+} from "./ui/card";
 
 interface SubCardProps {
   title: string;
