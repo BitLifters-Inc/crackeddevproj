@@ -1,13 +1,19 @@
 'use client'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { api } from "~/trpc/react"
 
 export const JobReel = () => {
+  const [jobList, setJobList] = useState([])
   
-  const getJobs = api.getJobs.useQuery();
+  // const getJobs = api.getJobs.useQuery();
+
+  const { data:jobs, isLoading, error } = api.getJobs.useQuery()
+
+
+
   return (
     <div>
-      {JSON.stringify(getJobs.data)}
+      {JSON.stringify(jobs)}
     </div>
   )
 }
