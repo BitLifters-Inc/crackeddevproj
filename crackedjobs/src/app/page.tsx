@@ -1,13 +1,26 @@
+'use client'
 import React from "react";
 import ForecastCard from "../components/mainCard";
+import MaxWidthWrapper from "~/components/MaxWidthWrapper";
+import { api } from "~/trpc/react";
 
 export default function Home() {
+
+  const { data:jobs, isLoading, error } = api.getJobs.useQuery()
+
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center">
-      <div>
-        <h1 className="text-9xl">hello world</h1>
-      </div>
-      <ForecastCard className="mx-auto" />
+    <main className="">
+      <MaxWidthWrapper>
+        {jobs?.map((info, index) => (
+          <div key = {index}>
+            {info.company}
+          </div>
+        ))}
+      </MaxWidthWrapper>
+      {/* <ForecastCard className="mx-auto" /> */}
+
+      
     </main>
   );
 }
