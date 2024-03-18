@@ -3,6 +3,7 @@ import React from "react";
 import ForecastCard from "../components/mainCard";
 import MaxWidthWrapper from "~/components/MaxWidthWrapper";
 import { api } from "~/trpc/react";
+import { type jobType } from "~/lib/utils";
 
 export default function Home() {
 
