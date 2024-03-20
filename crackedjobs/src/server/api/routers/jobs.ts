@@ -35,9 +35,14 @@ export const jobsRouter = createTRPCRouter({
             throw new TRPCError({code: 'NOT_FOUND'})
           }
 
-          if(page === 10) {
-            jobsExist = false;
-            return totalJobs;
+          totalJobs = totalJobs.concat(jobData);
+          console.log(totalJobs.length);
+          page++;
+
+          // to stop unlimited counting were gona go up to just 10 for pages which should be around 100 entries
+          if(page === 2) {
+            jobsExist = false
+            return totalJobs
           }
           
           // if(jobData.length === 0){
@@ -45,9 +50,6 @@ export const jobsRouter = createTRPCRouter({
           //   return totalJobs;
           // }
           
-          totalJobs = totalJobs.concat(jobData);
-          console.log(totalJobs.length);
-          page++;
           // // const validated = responseValidator.parse(jobRes.json())
           // console.log(validated)
           // return jobRes.json();

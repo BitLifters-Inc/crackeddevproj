@@ -18,31 +18,7 @@ import { responseValidator } from "~/utils/validators/job-validator";
 export const appRouter = createTRPCRouter({
   // post: postRouter,
   jobs: jobsRouter,
-
-  getHello: publicProcedure.query(() => 'hi'),
-
-  getJobs: publicProcedure
-    .query(async () => {
-      try{
-        const jobRes = await fetch ("https://api.crackeddevs.com/v1/get-jobs?limit=10",
-          {
-            headers: {
-              'api-key': 'b88335d0-6ee7-444d-9436-975a9ef6919b'
-            }
-          }
-        )
-        
-        if(jobRes.ok) {
-          const validated = responseValidator.parse(jobRes.json())
-          return validated
-        } else {
-          throw new TRPCError({code: 'NOT_FOUND'})
-        }
-        
-      } catch (error) {
-        throw new TRPCError({code: "NOT_FOUND"})
-      }
-    })
+  
 });
 
 // export type definition of API
