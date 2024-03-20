@@ -1,6 +1,7 @@
 'use client'
-import React from 'react';
+import React, { useState } from 'react';
 import { type jobType } from '~/lib/types';
+import { Badge } from './ui/badge';
 import {
   Card,
   CardContent,
@@ -19,6 +20,8 @@ type TJobDescription = string | undefined
 
 const JobCard: React.FC<jobType> = (job: jobType, className: string) => {
 
+  
+
   return (
     <Card className = {cn(className, '')}>
       <CardHeader>
@@ -27,6 +30,8 @@ const JobCard: React.FC<jobType> = (job: jobType, className: string) => {
             {job.title} 
           </h1>
         </CardTitle>
+        <Badge>{job.max_payment_usd}</Badge>
+        
         <CardDescription>
           {formatText(job.description)}
         </CardDescription>
@@ -42,7 +47,20 @@ function formatText(description: TJobDescription) {
 
   const nonEmptyParagraphs = trimmedParagraphs?.filter(paragraph => paragraph !== '')
 
-  return nonEmptyParagraphs
+  return parseJobDescription(nonEmptyParagraphs);
+}
+
+function parseJobDescription(description: string): string[] {
+  const sections: string[] = [];
+  
+  // Extracting sections based on the keywords
+  const regex = /(# Job Description ✨|Key Responsibilities:|Qualifications:|Compensation:|Expectations:)(.*?)(?=#|$)/gs;
+  let match;
+  while ((match = regex.exec(description)) !== null) {
+      sections.push(match[0].trim());
+  }
+  
+  return sections;
 }
 
 
