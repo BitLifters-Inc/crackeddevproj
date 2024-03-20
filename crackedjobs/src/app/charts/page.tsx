@@ -1,14 +1,14 @@
-
-import React from 'react'
+import React from 'react';
 import ForecastCard from "~/components/forecastCard";
+// import css styling from styles folder
+import '../../../src/styles/chart.css';
 
-// type Props = {}
-const page = () => {
+const Page = () => {
   return (
-    <ForecastCard />
-  )
-}
+    <div className="bg-blue-100 h-screen">
+      <ForecastCard />
+    </div>
+  );
+};
 
-export default page
-
-
+export default Page;
