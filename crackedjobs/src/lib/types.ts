@@ -9,6 +9,7 @@ export type jobType = {
     max_payment_usd: number;
     location_iso: string;
     applications: number;
+    created_at: string;
     views: number;
     apply_url: string;
 }
