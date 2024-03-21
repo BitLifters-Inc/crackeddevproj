@@ -2,7 +2,7 @@ import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import { env } from "~/env";
 
-import { type jobType } from "~/lib/utils";
+import { jobType } from "../../../lib/types";
 
 import {
   createTRPCRouter,
@@ -56,34 +56,44 @@ export const jobsRouter = createTRPCRouter({
     }
   }),
 
-    getYesterdayJobs: publicProcedure
-    .query(async () => {
-      // variable to get jobs 24 hours from now
-      // Get the current date and time
+  getYesterdayJobs: publicProcedure
+  .query(async () => {
+    try {
+      let jobsExist = true;
+      let totalJobs: jobType[] = [];
+      let page = 1;
       const currentDate = new Date();
+      const pastDay = new Date(currentDate.getTime() - (24 * 60 * 60 * 1000));
 
-      // Subtract 24 hours (in milliseconds) to get yesterday's time
-      const pastDay = new Date(currentDate.getTime() - (24 * 60 * 60 * 1000))
-      console.log(pastDay.toISOString().substring(0, 19))
-
-      // Construct the string using template literals
-        const jobRes = await fetch(`https://api.crackeddevs.com/v1/get-jobs?posted_after=${pastDay.toISOString().substring(0,19)}`,
-          {
-            headers: {
-              'api-key': env.CRACKED_DEVS_API_KEY
-            }
+      while (jobsExist) {
+        const jobRes = await fetch(`https://api.crackeddevs.com/v1/get-jobs?posted_after=${pastDay.toISOString().substring(0,19)}&page=${page}`, {
+          headers: {
+            'api-key': env.CRACKED_DEVS_API_KEY
           }
-        )
-      
+        });
 
-        if(!jobRes.ok) {
-          throw new TRPCError({code: 'NOT_FOUND'})
+        if (!jobRes.ok) {
+          throw new Error(`Fetch failed with status ${jobRes.status}`);
         }
-        
-        // // const validated = responseValidator.parse(jobRes.json())
-        // console.log(validated)
-        return jobRes.json();
-    }),
+
+        const jobData = await jobRes.json();
+
+        if (jobData.length === 0) {
+          jobsExist = false;
+          return totalJobs;
+        }
+
+        totalJobs = totalJobs.concat(jobData);
+        console.log('Total jobs received:', totalJobs.length);
+        page++;
+      }
+
+      return totalJobs;
+    } catch (error) {
+      console.error('Error fetching jobs:', error);
+      throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'Failed to fetch jobs' });
+    }
+  }),
     getCurrentJobs: publicProcedure
     
     .query(async () => {
