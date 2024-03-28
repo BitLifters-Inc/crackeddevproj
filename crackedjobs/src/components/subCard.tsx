@@ -1,5 +1,6 @@
 import React from "react";
 import { Card, CardTitle, CardDescription } from "./ui/card";
+import '../../src/styles/chart.css';
 
 interface SubCardProps {
   title: string;
