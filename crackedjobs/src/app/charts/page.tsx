@@ -3,7 +3,8 @@
 import React from 'react';
 import { getJobPostings, getJobPostingsYesterday } from "../../server/api/routers/jobsService";
 import { jobType } from "../../lib/types";
-import ForecastCard from "../../components/forecastCard"
+import ForecastCard from "../../components/forecastCard";
+import '../../styles/chart.css';
 
 // export async function getServerSideProps() {
 //   try {
