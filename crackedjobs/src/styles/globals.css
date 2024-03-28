@@ -75,3 +75,32 @@
   }
 }
 
+/* Ze styling for the forecast component */
+.forecast-card {
+  background-color: #b2d5fc; 
+  border: 1px solid #ccc; 
+  border-radius: 6px; 
+  padding:20px; 
+}
+
+/* Styles for the title in the ForecastCard component */
+.forecast-card .title {
+  font-size: 75px; /* Example font size */
+  font-weight: bold; /* Example font weight */
+  color: #333; /* Example text color */
+  margin-bottom: 10px; /* Example margin bottom */
+}
+
+/* Styles for the description in the ForecastCard component */
+.forecast-card .description {
+  font-size: 16px; /* Example font size */
+  color: #666; /* Example text color */
+  line-height: 1.5; /* Example line height */
+}
+
+@font-face {
+  font-family: 'PokemonFRLG';
+  src: url('../../public/fonts/pokemon-frlg/pokemon-frlg.ttf') format('truetype');
+  /* Adjust the path and format based on your font file */
+}
+
